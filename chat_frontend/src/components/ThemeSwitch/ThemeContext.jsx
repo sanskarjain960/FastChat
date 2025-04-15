@@ -25,15 +25,15 @@ export const ThemeProvider = ({ children }) => {
   useEffect(() => {
     // Remove all color classes first
     const colorThemes = ['default','red', 'yellow', 'blue', 'orange', 'green', 'violet', 'rose'];
-    document.documentElement.classList.remove(...colorThemes);
-    document.documentElement.classList.remove('dark');
+    document.documentElement.classList?.remove(...colorThemes);
+    document.documentElement.classList?.remove('dark');
     
     // Add selected color class
-    document.documentElement.classList.add(theme.color);
+    document.documentElement.classList?.add(theme.color);
     
     // Add dark class if needed
     if (theme.isDark) {
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList?.add('dark');
     }
     
     // Save to localStorage for persistence
