@@ -250,7 +250,7 @@ export default function FastChat() {
                     <Users className="w-5 h-5 text-foreground" />
                     <span className="text-md font-medium">Contacts</span>
                     <span className="text-xs text-muted-foreground opacity-75">
-                      ({onlineUsers.length - 1} online)
+                      ({onlineUsers?.length - 1} online)
                     </span>
                   </div>
                 </div>
@@ -329,7 +329,7 @@ export default function FastChat() {
                       </div>
                     ))}
 
-                    {filteredUsers.length === 0 && (
+                    {filteredUsers?.length === 0 && (
                       <div className="text-center text-zinc-500 py-4">
                         No online users
                       </div>
