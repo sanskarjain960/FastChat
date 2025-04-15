@@ -17,7 +17,7 @@ export const ThemeProvider = ({ children }) => {
       setTheme(JSON.parse(savedTheme));
     } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       // If no saved theme but system prefers dark mode
-      setTheme({ color: '', isDark: true });
+      setTheme({ color: 'default', isDark: true });
     }
   }, []);
 
