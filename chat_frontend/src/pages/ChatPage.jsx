@@ -287,7 +287,7 @@ export default function FastChat() {
               ) : (
                 <ScrollArea className="flex-1 h-64">
                   <div className="space-y-1 py-1">
-                    {filteredUsers.map((user) => (
+                    {filteredUsers?.map((user) => (
                       <div
                         key={user._id}
                         className={`flex items-center space-x-3 p-2 rounded-md cursor-pointer ${
@@ -386,7 +386,7 @@ export default function FastChat() {
                 ) : (
                   <ScrollArea className="h-full">
                     <div className="p-4 space-y-4">
-                      {messages.map((message) => (
+                      {messages?.map((message) => (
                         <div
                           key={message._id}
                           className={`flex ${
