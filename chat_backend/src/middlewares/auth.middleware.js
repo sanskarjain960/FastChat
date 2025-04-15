@@ -7,7 +7,7 @@ export const protectRoute = asyncHandler(async (req, res,next) => {
         
     const token = req.cookies?.jwt;
 
-        // console.log(token);
+        console.log(token);
     
         if(!token){
             throw new ApiError(400,"Unauthorized - no token provided");

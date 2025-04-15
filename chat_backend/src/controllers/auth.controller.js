@@ -125,7 +125,7 @@ export const checkAuth = asyncHandler(async (req, res) => {
         res.status(200).json(new ApiResponse(200,req.user, "user authenticated"))
     }
     catch (error) {
-        throw new ApiError(400,"Error in check Auth")
+        throw new ApiError(405,"Error in check Auth")
     }
 }
 )
