@@ -5,13 +5,12 @@ import { io } from "socket.io-client"
 import { store } from "./Store";
 import { getSocket,setSocket } from "./userSlice.js";
 
-const BASE_URL = "http://localhost:5000";
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export const checkAuth = async(dispatch) =>{
     
     try{
         const res = await axiosInstance.get("/auth/check")
-        // const res = await axios.get("http://localhost:5000/api/auth/check")
         dispatch(setauthUser(res.data.data));
         connectSocket()
     }
