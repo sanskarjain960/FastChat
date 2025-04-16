@@ -152,9 +152,9 @@ export default function FastChat() {
   };
 
   return (
-    <div className="flex flex-col h-screen max-h-screen overflow-hidden text-foreground">
+    <div className="flex flex-col h-screen max-h-screen overflow-hidden text-foreground bg-background">
       {/* Top Navbar */}
-      <div className="flex justify-between items-center p-3 border-b border-border bg-background shrink-0">
+      <div className="flex justify-between items-center p-3 border-b-2 border-muted bg-background shrink-0">
         {/* Logo and Toggle */}
         <div className="flex items-center">
           {sidebarOpen ? (
@@ -242,11 +242,15 @@ export default function FastChat() {
         <div
           className={`border-r border-border flex flex-col overflow-hidden shrink-0 transition-all duration-300 ease-in-out text-sidebar-primary-foreground bg-sidebar-primary ${
             sidebarOpen ? "w-80 opacity-100" : "w-0 opacity-0"
-          }`}
+          }
+          
+          ${selectedUser ? "rounded-r-0": "rounded-r-xl"}
+          `}
+          
         >
           {sidebarOpen && (
             <>
-              <div className="border-b border-border shrink-0">
+              <div className="border-b-3 border-border shrink-0">
                 <div className="px-4 py-3">
                   <div className="flex items-center gap-2">
                     <Users className="w-5 h-5 " />
@@ -377,6 +381,7 @@ export default function FastChat() {
                   variant="ghost"
                   size="sm"
                   className="h-8 w-8 p-0 shrink-0"
+                  onClick={() => dispatch(setselectedUser(null))}
                 >
                   <X className="h-4 w-4" />
                 </Button>
