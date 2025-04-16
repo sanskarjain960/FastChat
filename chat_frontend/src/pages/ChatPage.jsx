@@ -304,7 +304,7 @@ export default function FastChat() {
                         onClick={() => dispatch(setselectedUser(user))}
                       >
                         <div className="relative">
-                          <Avatar className="h-8 w-8 shrink-0">
+                          <Avatar className="h-8 w-8 shrink-0" onClick={() => setShowModal(true)}>
                             <AvatarImage
                               src={user.profilePic}
                               alt={user.name}
