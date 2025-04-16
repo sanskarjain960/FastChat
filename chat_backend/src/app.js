@@ -11,6 +11,20 @@ app.use(cors({
     origin: process.env.CORS_ORIGIN,
     credentials: true
 }))
+
+app.use((req, res, next) => {
+  
+    const requestOrigin = req.headers.origin;
+  
+    if (requestOrigin && requestOrigin !== process.env.CORS_ORIGIN) {
+      return res.status(403).json({ message: "Forbidden: Invalid origin" });
+    }
+  
+    next();
+  });
+
+
+
 app.use(cookieParser())
 
 app.use(express.json({limit: "16kb"}))
