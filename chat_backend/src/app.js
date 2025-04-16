@@ -7,23 +7,24 @@ import messageRoutes from "./routes/message.route.js"
 
 const app = express();
 
-app.use(cors({
-    origin: process.env.CORS_ORIGIN,
-    credentials: true
-}))
+
 
 app.use((req, res, next) => {
-  
-    const requestOrigin = req.headers.origin;
-  
-    if (requestOrigin && requestOrigin !== process.env.CORS_ORIGIN) {
-      return res.status(403).json({ message: "Forbidden: Invalid origin" });
-    }
-  
-    next();
-  });
+  const origin = req.headers.origin || req.headers.referer;
 
+  if (!origin || !origin.startsWith(process.env.CORS_ORIGIN)) {
+    return res.status(403).json({ message: "Access denied: Invalid origin" });
+  }
 
+  next();
+});
+
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN,
+    credentials: true,
+  })
+);
 
 app.use(cookieParser())
 
