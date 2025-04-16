@@ -152,7 +152,7 @@ export default function FastChat() {
   };
 
   return (
-    <div className="flex flex-col h-screen max-h-screen overflow-hidden bg-background text-foreground">
+    <div className="flex flex-col h-screen max-h-screen overflow-hidden text-foreground">
       {/* Top Navbar */}
       <div className="flex justify-between items-center p-3 border-b border-border bg-background shrink-0">
         {/* Logo and Toggle */}
@@ -240,7 +240,7 @@ export default function FastChat() {
       <div className="flex flex-1 overflow-hidden">
         {/* Left Sidebar - Contacts (collapsible) */}
         <div
-          className={`border-r border-border flex flex-col overflow-hidden shrink-0 transition-all duration-300 ease-in-out  ${
+          className={`border-r border-border flex flex-col overflow-hidden shrink-0 transition-all duration-300 ease-in-out text-sidebar-primary-foreground bg-sidebar-primary ${
             sidebarOpen ? "w-80 opacity-100" : "w-0 opacity-0"
           }`}
         >
@@ -249,9 +249,9 @@ export default function FastChat() {
               <div className="border-b border-border shrink-0">
                 <div className="px-4 py-3">
                   <div className="flex items-center gap-2">
-                    <Users className="w-5 h-5 text-foreground" />
+                    <Users className="w-5 h-5 " />
                     <span className="text-md font-medium">Contacts</span>
-                    <span className="text-xs text-muted-foreground opacity-75">
+                    <span className="text-xs opacity-75">
                       ({onlineUsers?.length - 1} online)
                     </span>
                   </div>
@@ -266,16 +266,16 @@ export default function FastChat() {
                         checked={showOnlineOnly}
                         onChange={() => setshowOnlineOnly(!showOnlineOnly)}
                       />
-                      <div className="w-4 h-4 border rounded-full border-input peer-checked:border-primary peer-checked:border-2 transition-all"></div>
+                      <div className="w-4 h-4 border rounded-full border-muted-foreground peer-checked:border-primary-foreground peer-checked:border-2 transition-all"></div>
                       <div
-                        className={`absolute w-2 h-2 rounded-full bg-primary top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all ${
+                        className={`absolute w-2 h-2 rounded-full bg-primary-foreground top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all ${
                           showOnlineOnly
                             ? "opacity-100 scale-100"
                             : "opacity-0 scale-0"
                         }`}
                       ></div>
                     </div>
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-xs ">
                       Show online only
                     </span>
                   </label>
@@ -294,8 +294,8 @@ export default function FastChat() {
                         key={user._id}
                         className={`flex items-center space-x-3 p-2 rounded-md cursor-pointer ${
                           selectedUser?._id === user._id
-                            ? "bg-accent text-accent-foreground"
-                            : "hover:bg-muted"
+                            ? "bg-background text-foreground"
+                            : "hover:bg-muted hover:text-foreground"
                         }`}
                         onClick={() => dispatch(setselectedUser(user))}
                       >
@@ -322,7 +322,7 @@ export default function FastChat() {
                           <div className="font-semibold text-sm truncate">
                             {user.fullName}
                           </div>
-                          <div className="text-xs text-muted-foreground truncate">
+                          <div className="text-xs opacity-75 truncate">
                             {onlineUsers.includes(user._id)
                               ? "Online"
                               : "Offline"}
@@ -344,12 +344,12 @@ export default function FastChat() {
         </div>
 
         {/* Right Side - Chat Area */}
-        <div className="flex-1 flex flex-col overflow-hidden bg-background">
+        <div className="flex-1 flex flex-col overflow-hidden bg-primary">
           {selectedUser ? (
             <>
               {/* Chat Header */}
 
-              <div className="p-3 border-b border-border flex items-center justify-between shrink-0 bg-background">
+              <div className="p-3 border-b border-border flex items-center justify-between shrink-0 ">
                 <div
                   className="flex items-center space-x-3 cursor-pointer"
                   onClick={() => setShowModal(true)}
@@ -365,7 +365,7 @@ export default function FastChat() {
                     </AvatarFallback>
                   </Avatar>
                   <div className="min-w-0">
-                    <div className="font-semibold text-sm truncate">
+                    <div className="font-semibold text-sm truncate text-primary-foreground">
                       {selectedUser.fullName}
                     </div>
                     <div className="text-xs text-muted-foreground truncate">
@@ -497,7 +497,7 @@ export default function FastChat() {
               {/* Message Input */}
               <div className="relative">
                 {/* Message input container */}
-                <div className="p-3 border-t border-border flex items-center space-x-2 shrink-0 bg-background">
+                <div className="p-3 border-t border-border flex items-center space-x-2 shrink-0 bg-secondary">
                   {previewUrl && (
                     <div className="absolute -top-32 inline-block">
                       <img
@@ -517,7 +517,7 @@ export default function FastChat() {
 
                   <Input
                     placeholder="Type a message..."
-                    className="bg-muted border-input"
+                    className="bg-background border-input"
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                     onKeyDown={handleKeyDown}
