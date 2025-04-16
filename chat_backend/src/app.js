@@ -9,15 +9,15 @@ const app = express();
 
 
 
-app.use((req, res, next) => {
-  const origin = req.headers.origin || req.headers.referer;
+// app.use((req, res, next) => {
+//   const origin = req.headers.origin || req.headers.referer;
 
-  if (!origin || !origin.startsWith(process.env.CORS_ORIGIN)) {
-    return res.status(403).json({ message: "Access denied: Invalid origin" });
-  }
+//   if (!origin || !origin.startsWith(process.env.CORS_ORIGIN)) {
+//     return res.status(403).json({ message: "Access denied: Invalid origin" });
+//   }
 
-  next();
-});
+//   next();
+// });
 
 app.use(
   cors({
