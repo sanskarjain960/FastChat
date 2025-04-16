@@ -13,6 +13,7 @@ import {
   Users,
   Check,
   Image,
+  Mail,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -68,6 +69,7 @@ export default function FastChat() {
 
   const [previewUrl, setPreviewUrl] = useState(null);
   const [text, setText] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   // Scroll to bottom of messages when new messages are added
   useEffect(() => {
@@ -238,13 +240,13 @@ export default function FastChat() {
       <div className="flex flex-1 overflow-hidden">
         {/* Left Sidebar - Contacts (collapsible) */}
         <div
-          className={`border-r border-border flex flex-col overflow-hidden shrink-0 transition-all duration-300 ease-in-out bg-background ${
+          className={`border-r border-border flex flex-col overflow-hidden shrink-0 transition-all duration-300 ease-in-out  ${
             sidebarOpen ? "w-80 opacity-100" : "w-0 opacity-0"
           }`}
         >
           {sidebarOpen && (
             <>
-              <div className="border-b border-border bg-background shrink-0">
+              <div className="border-b border-border shrink-0">
                 <div className="px-4 py-3">
                   <div className="flex items-center gap-2">
                     <Users className="w-5 h-5 text-foreground" />
@@ -346,8 +348,12 @@ export default function FastChat() {
           {selectedUser ? (
             <>
               {/* Chat Header */}
+
               <div className="p-3 border-b border-border flex items-center justify-between shrink-0 bg-background">
-                <div className="flex items-center space-x-3">
+                <div
+                  className="flex items-center space-x-3 cursor-pointer"
+                  onClick={() => setShowModal(true)}
+                >
                   <Avatar className="h-8 w-8 shrink-0">
                     <AvatarImage
                       src={selectedUser.profilePic}
@@ -363,9 +369,7 @@ export default function FastChat() {
                       {selectedUser.fullName}
                     </div>
                     <div className="text-xs text-muted-foreground truncate">
-                      {onlineUsers.includes(selectedUser._id)
-                        ? "Online"
-                        : "Offline"}
+                      {selectedUser.status}
                     </div>
                   </div>
                 </div>
@@ -373,10 +377,57 @@ export default function FastChat() {
                   variant="ghost"
                   size="sm"
                   className="h-8 w-8 p-0 shrink-0"
-                  onClick={() => dispatch(setselectedUser(null))}
                 >
                   <X className="h-4 w-4" />
                 </Button>
+
+                {/* Profile Modal */}
+                <Dialog open={showModal} onOpenChange={setShowModal}>
+                  <DialogContent className="max-w-sm gap-y-4">
+                    <DialogHeader>
+                      <DialogTitle className="text-start text-foreground">
+                        Profile Details
+                      </DialogTitle>
+                    </DialogHeader>
+                    <div className="flex flex-col items-center space-y-4 p-4">
+                      <Avatar className="h-44 w-44 ">
+                        <AvatarImage
+                          src={selectedUser.profilePic}
+                          alt={selectedUser.fullName}
+                          className="object-cover"
+                        />
+                        <AvatarFallback className="text-2xl">
+                          {selectedUser.fullName.charAt(0)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="text-center space-y-3">
+                        <h3 className="font-bold text-2xl text-foreground">
+                          {selectedUser.fullName}
+                        </h3>
+                        <div className="flex items-center justify-center text-sm text-muted-foreground">
+                          <Mail className="h-4 w-4 mr-2" />
+                          <span>{selectedUser.email}</span>
+                        </div>
+                        <div className="text-sm">
+                          <span className="inline-block h-2 w-2 rounded-full bg-green-500 mr-2">
+                          
+                          </span>
+                          <span className="text-foreground">{onlineUsers.includes(selectedUser._id)
+                            ? "Online"
+                            : "Offline"}</span>
+                        </div>
+                      </div>
+                      <div className="flex justify-end w-full pt-4 text-foreground">
+                        <Button
+                          variant="outline"
+                          onClick={() => setShowModal(false)}
+                        >
+                          Close
+                        </Button>
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
               </div>
 
               {/* Chat Messages Area */}

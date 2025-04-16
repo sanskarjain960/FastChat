@@ -10,8 +10,6 @@ export const protectRoute = asyncHandler(async (req, res,next) => {
         if(!token){
             throw new ApiError(400,"Unauthorized - no token provided");
         } 
-
-        console.log(token);
     
         const decoded = jwt.verify(token,process.env.JWT_SECRET)
     
