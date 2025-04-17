@@ -117,7 +117,7 @@ export default function FastChat() {
   const handleSendMessage = async () => {
     if (!text.trim() && !File) return;
 
-    toggleEmojiPicker();
+    setShowEmojiPicker(false)
 
     const formData = new FormData();
     formData.append("image", File);
@@ -555,6 +555,7 @@ export default function FastChat() {
           onChange={(e) => setText(e.target.value)}
           onKeyDown={handleKeyDown}
           ref={inputRef}
+          onClick = {() => setShowEmojiPicker(false)}
         />
 
         <label
