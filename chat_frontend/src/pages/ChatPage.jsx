@@ -14,6 +14,7 @@ import {
   Check,
   Image,
   Mail,
+  Smile,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -44,6 +45,9 @@ import { formatMessageTime } from "../lib/formatMessagetime";
 import { toast } from "sonner";
 import { SidebarLoadingSkeleton } from "@/components/Skeletons/SidebarSkeleton";
 import { MessagesLoadingSkeleton } from "@/components/Skeletons/MessageSkeleton";
+import EmojiPicker from 'emoji-picker-react';
+
+
 
 export default function FastChat() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -70,6 +74,8 @@ export default function FastChat() {
   const [previewUrl, setPreviewUrl] = useState(null);
   const [text, setText] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const inputRef = useRef(null);
 
   // Scroll to bottom of messages when new messages are added
   useEffect(() => {
@@ -103,8 +109,15 @@ export default function FastChat() {
     ? users.filter((user) => onlineUsers.includes(user._id))
     : users;
 
+
+    const toggleEmojiPicker = () => {
+      setShowEmojiPicker(!showEmojiPicker);
+    };
+
   const handleSendMessage = async () => {
     if (!text.trim() && !File) return;
+
+    toggleEmojiPicker();
 
     const formData = new FormData();
     formData.append("image", File);
@@ -149,6 +162,12 @@ export default function FastChat() {
   const handleRemoveImage = () => {
     setFile(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+
+
+  const handleEmojiClick = (emojiData) => {
+    setText(currentText => currentText + emojiData.emoji);
   };
 
   return (
@@ -240,8 +259,8 @@ export default function FastChat() {
       <div className="flex flex-1 overflow-hidden">
         {/* Left Sidebar - Contacts (collapsible) */}
         <div
-          className={`border-r border-border flex flex-col overflow-hidden shrink-0 transition-all duration-300 ease-in-out text-sidebar-primary-foreground bg-sidebar-primary ${
-            sidebarOpen ? "w-80 opacity-100" : "w-0 opacity-0"
+          className={` border-r border-border flex flex-col overflow-hidden shrink-0 transition-all duration-300 ease-in-out text-sidebar-primary-foreground bg-sidebar-primary ${
+            sidebarOpen ? "w-[30vw] min-w-[200px] max-w-[400px] opacity-100" : "w-0 opacity-0"
           }
           
           ${selectedUser ? "rounded-r-0": "rounded-r-xl"}
@@ -501,64 +520,82 @@ export default function FastChat() {
 
               {/* Message Input */}
               <div className="relative">
-                {/* Message input container */}
-                <div className="p-3 border-t border-border flex items-center space-x-2 shrink-0 bg-secondary">
-                  {previewUrl && (
-                    <div className="absolute -top-32 inline-block">
-                      <img
-                        src={previewUrl}
-                        alt="Preview"
-                        className="h-[8em] w-auto max-w-xs object-cover rounded"
-                      />
-                      <button
-                        onClick={handleRemoveImage}
-                        className="absolute top-1 right-1 h-5 w-5 bg-black rounded-full flex items-center justify-center"
-                        aria-label="Remove image"
-                      >
-                        <X className="h-3 w-3 text-white" />
-                      </button>
-                    </div>
-                  )}
+      {/* Message input container */}
+      <div className="p-3 border-t border-border flex items-center space-x-2 shrink-0 bg-secondary">
+        {previewUrl && (
+          <div className="absolute -top-32 inline-block">
+            <img
+              src={previewUrl}
+              alt="Preview"
+              className="h-32 w-auto max-w-xs object-cover rounded"
+            />
+            <button
+              onClick={handleRemoveImage}
+              className="absolute top-1 right-1 h-5 w-5 bg-black rounded-full flex items-center justify-center"
+              aria-label="Remove image"
+            >
+              <X className="h-3 w-3 text-white" />
+            </button>
+          </div>
+        )}
 
-                  <Input
-                    placeholder="Type a message..."
-                    className="bg-background border-input"
-                    value={text}
-                    onChange={(e) => setText(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                  />
+        {/* Emoji Button */}
+        <button
+          onClick={toggleEmojiPicker}
+          className="h-9 w-9 flex items-center justify-center rounded hover:bg-gray-100 cursor-pointer"
+          aria-label="Add emoji"
+        >
+          <Smile className="h-5 w-5 text-gray-500" />
+        </button>
 
-                  <label
-                    htmlFor="image-upload"
-                    className={`h-9 w-9 flex items-center justify-center rounded hover:bg-gray-100 cursor-pointer ${
-                      previewUrl ? "bg-blue-100" : ""
-                    }`}
-                  >
-                    <Image
-                      className={`h-5 w-5 ${
-                        previewUrl ? "text-blue-500" : "text-gray-500"
-                      }`}
-                    />
-                    <input
-                      id="image-upload"
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={handleFileChange}
-                      ref={fileInputRef}
-                    />
-                  </label>
+        <Input
+          placeholder="Type a message..."
+          className="bg-background border-input"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          onKeyDown={handleKeyDown}
+          ref={inputRef}
+          onClick = {toggleEmojiPicker}
+        />
 
-                  <Button
-                    size="icon"
-                    className="h-9 w-9 shrink-0"
-                    onClick={handleSendMessage}
-                    disabled={!text.trim() && !File}
-                  >
-                    <Send className="h-5 w-5" />
-                  </Button>
-                </div>
-              </div>
+        <label
+          htmlFor="image-upload"
+          className={`h-9 w-9 flex items-center justify-center rounded hover:bg-gray-100 cursor-pointer ${
+            previewUrl ? "bg-blue-100" : ""
+          }`}
+        >
+          <Image
+            className={`h-5 w-5 ${
+              previewUrl ? "text-blue-500" : "text-gray-500"
+            }`}
+          />
+          <input
+            id="image-upload"
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleFileChange}
+            ref={fileInputRef}
+          />
+        </label>
+
+        <Button
+          size="icon"
+          className="h-9 w-9 shrink-0"
+          onClick={handleSendMessage}
+          disabled={!text.trim() && !previewUrl}
+        >
+          <Send className="h-5 w-5" />
+        </Button>
+      </div>
+      
+      {/* Emoji Picker - Displayed as an overlay when active */}
+      {showEmojiPicker && (
+        <div className="absolute bottom-14 left-0 z-10">
+          <EmojiPicker onEmojiClick={handleEmojiClick} width={370} height={350} theme="light" skinTonesDisabled={true} emojiStyle="apple"/>
+        </div>
+      )}
+    </div>
             </>
           ) : (
             <div className="flex-1 flex flex-col items-center justify-center p-8 bg-background">
