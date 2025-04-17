@@ -555,7 +555,6 @@ export default function FastChat() {
           onChange={(e) => setText(e.target.value)}
           onKeyDown={handleKeyDown}
           ref={inputRef}
-          onClick = {toggleEmojiPicker}
         />
 
         <label
