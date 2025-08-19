@@ -45,9 +45,7 @@ import { formatMessageTime } from "../lib/formatMessagetime";
 import { toast } from "sonner";
 import { SidebarLoadingSkeleton } from "@/components/Skeletons/SidebarSkeleton";
 import { MessagesLoadingSkeleton } from "@/components/Skeletons/MessageSkeleton";
-import EmojiPicker from 'emoji-picker-react';
-
-
+import EmojiPicker from "emoji-picker-react";
 
 export default function FastChat() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -109,15 +107,14 @@ export default function FastChat() {
     ? users.filter((user) => onlineUsers.includes(user._id))
     : users;
 
-
-    const toggleEmojiPicker = () => {
-      setShowEmojiPicker(!showEmojiPicker);
-    };
+  const toggleEmojiPicker = () => {
+    setShowEmojiPicker(!showEmojiPicker);
+  };
 
   const handleSendMessage = async () => {
     if (!text.trim() && !File) return;
 
-    setShowEmojiPicker(false)
+    setShowEmojiPicker(false);
 
     const formData = new FormData();
     formData.append("image", File);
@@ -164,10 +161,8 @@ export default function FastChat() {
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
-
-
   const handleEmojiClick = (emojiData) => {
-    setText(currentText => currentText + emojiData.emoji);
+    setText((currentText) => currentText + emojiData.emoji);
   };
 
   return (
@@ -260,12 +255,13 @@ export default function FastChat() {
         {/* Left Sidebar - Contacts (collapsible) */}
         <div
           className={` border-r border-border flex flex-col overflow-hidden shrink-0 transition-all duration-300 ease-in-out text-sidebar-primary-foreground bg-sidebar-primary ${
-            sidebarOpen ? "w-[30vw] min-w-[200px] max-w-[400px] opacity-100" : "w-0 opacity-0"
+            sidebarOpen
+              ? "w-[30vw] min-w-[200px] max-w-[400px] opacity-100"
+              : "w-0 opacity-0"
           }
           
-          ${selectedUser ? "rounded-r-0": "rounded-r-xl"}
+          ${selectedUser ? "rounded-r-0" : "rounded-r-xl"}
           `}
-          
         >
           {sidebarOpen && (
             <>
@@ -298,9 +294,7 @@ export default function FastChat() {
                         }`}
                       ></div>
                     </div>
-                    <span className="text-xs ">
-                      Show online only
-                    </span>
+                    <span className="text-xs ">Show online only</span>
                   </label>
                 </div>
               </div>
@@ -323,7 +317,10 @@ export default function FastChat() {
                         onClick={() => dispatch(setselectedUser(user))}
                       >
                         <div className="relative">
-                          <Avatar className="h-8 w-8 shrink-0" onClick={() => setShowModal(true)}>
+                          <Avatar
+                            className="h-8 w-8 shrink-0"
+                            onClick={() => setShowModal(true)}
+                          >
                             <AvatarImage
                               src={user.profilePic}
                               alt={user.name}
@@ -433,12 +430,12 @@ export default function FastChat() {
                           <span>{selectedUser.email}</span>
                         </div>
                         <div className="text-sm">
-                          <span className="inline-block h-2 w-2 rounded-full bg-green-500 mr-2">
-                          
+                          <span className="inline-block h-2 w-2 rounded-full bg-green-500 mr-2"></span>
+                          <span className="text-foreground">
+                            {onlineUsers.includes(selectedUser._id)
+                              ? "Online"
+                              : "Offline"}
                           </span>
-                          <span className="text-foreground">{onlineUsers.includes(selectedUser._id)
-                            ? "Online"
-                            : "Offline"}</span>
                         </div>
                       </div>
                       <div className="flex justify-end w-full pt-4 text-foreground">
@@ -520,82 +517,89 @@ export default function FastChat() {
 
               {/* Message Input */}
               <div className="relative">
-      {/* Message input container */}
-      <div className="p-3 border-t border-border flex items-center space-x-2 shrink-0 bg-secondary">
-        {previewUrl && (
-          <div className="absolute -top-32 inline-block">
-            <img
-              src={previewUrl}
-              alt="Preview"
-              className="h-32 w-auto max-w-xs object-cover rounded"
-            />
-            <button
-              onClick={handleRemoveImage}
-              className="absolute top-1 right-1 h-5 w-5 bg-black rounded-full flex items-center justify-center"
-              aria-label="Remove image"
-            >
-              <X className="h-3 w-3 text-white" />
-            </button>
-          </div>
-        )}
+                {/* Message input container */}
+                <div className="p-3 border-t border-border flex items-center space-x-2 shrink-0 bg-secondary">
+                  {previewUrl && (
+                    <div className="absolute -top-32 inline-block">
+                      <img
+                        src={previewUrl}
+                        alt="Preview"
+                        className="h-32 w-auto max-w-xs object-cover rounded"
+                      />
+                      <button
+                        onClick={handleRemoveImage}
+                        className="absolute top-1 right-1 h-5 w-5 bg-black rounded-full flex items-center justify-center"
+                        aria-label="Remove image"
+                      >
+                        <X className="h-3 w-3 text-white" />
+                      </button>
+                    </div>
+                  )}
 
-        {/* Emoji Button */}
-        <button
-          onClick={toggleEmojiPicker}
-          className="h-9 w-9 flex items-center justify-center rounded hover:bg-gray-100 cursor-pointer"
-          aria-label="Add emoji"
-        >
-          <Smile className="h-5 w-5 text-gray-500" />
-        </button>
+                  {/* Emoji Button */}
+                  <button
+                    onClick={toggleEmojiPicker}
+                    className="h-9 w-9 flex items-center justify-center rounded hover:bg-gray-100 cursor-pointer"
+                    aria-label="Add emoji"
+                  >
+                    <Smile className="h-5 w-5 text-gray-500" />
+                  </button>
 
-        <Input
-          placeholder="Type a message..."
-          className="bg-background border-input"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          onKeyDown={handleKeyDown}
-          ref={inputRef}
-          onClick = {() => setShowEmojiPicker(false)}
-        />
+                  <Input
+                    placeholder="Type a message..."
+                    className="bg-background border-input"
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    ref={inputRef}
+                    onClick={() => setShowEmojiPicker(false)}
+                  />
 
-        <label
-          htmlFor="image-upload"
-          className={`h-9 w-9 flex items-center justify-center rounded hover:bg-gray-100 cursor-pointer ${
-            previewUrl ? "bg-blue-100" : ""
-          }`}
-        >
-          <Image
-            className={`h-5 w-5 ${
-              previewUrl ? "text-blue-500" : "text-gray-500"
-            }`}
-          />
-          <input
-            id="image-upload"
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={handleFileChange}
-            ref={fileInputRef}
-          />
-        </label>
+                  <label
+                    htmlFor="image-upload"
+                    className={`h-9 w-9 flex items-center justify-center rounded hover:bg-gray-100 cursor-pointer ${
+                      previewUrl ? "bg-blue-100" : ""
+                    }`}
+                  >
+                    <Image
+                      className={`h-5 w-5 ${
+                        previewUrl ? "text-blue-500" : "text-gray-500"
+                      }`}
+                    />
+                    <input
+                      id="image-upload"
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={handleFileChange}
+                      ref={fileInputRef}
+                    />
+                  </label>
 
-        <Button
-          size="icon"
-          className="h-9 w-9 shrink-0"
-          onClick={handleSendMessage}
-          disabled={!text.trim() && !previewUrl}
-        >
-          <Send className="h-5 w-5" />
-        </Button>
-      </div>
-      
-      {/* Emoji Picker - Displayed as an overlay when active */}
-      {showEmojiPicker && (
-        <div className="absolute bottom-14 left-0 z-10">
-          <EmojiPicker onEmojiClick={handleEmojiClick} width={370} height={350} theme="light" skinTonesDisabled={true} emojiStyle="apple"/>
-        </div>
-      )}
-    </div>
+                  <Button
+                    size="icon"
+                    className="h-9 w-9 shrink-0"
+                    onClick={handleSendMessage}
+                    disabled={!text.trim() && !previewUrl}
+                  >
+                    <Send className="h-5 w-5" />
+                  </Button>
+                </div>
+
+                {/* Emoji Picker - Displayed as an overlay when active */}
+                {showEmojiPicker && (
+                  <div className="absolute bottom-14 left-0 z-10">
+                    <EmojiPicker
+                      onEmojiClick={handleEmojiClick}
+                      width={370}
+                      height={350}
+                      theme="light"
+                      skinTonesDisabled={true}
+                      emojiStyle="apple"
+                    />
+                  </div>
+                )}
+              </div>
             </>
           ) : (
             <div className="flex-1 flex flex-col items-center justify-center p-8 bg-background">

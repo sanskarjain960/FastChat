@@ -136,7 +136,7 @@ export default function ChatAppHomepage() {
               </div>
             </div>
 
-            <div className="flex items-start p-3 bg-zinc-900/70 backdrop-blur-sm rounded-xl border border-zinc-800 hover:border-green-500/30 transition-all duration-300 hover:shadow-md hover:shadow-green-500/10">
+            {/* <div className="flex items-start p-3 bg-zinc-900/70 backdrop-blur-sm rounded-xl border border-zinc-800 hover:border-green-500/30 transition-all duration-300 hover:shadow-md hover:shadow-green-500/10">
               <div className="bg-black p-2 rounded-lg border border-green-500/20">
                 <Users className="h-4 w-4 text-green-400" />
               </div>
@@ -148,7 +148,7 @@ export default function ChatAppHomepage() {
                   Create rooms for teams or friends
                 </p>
               </div>
-            </div>
+            </div> */}
 
             <div className="flex items-start p-3 bg-zinc-900/70 backdrop-blur-sm rounded-xl border border-zinc-800 hover:border-green-500/30 transition-all duration-300 hover:shadow-md hover:shadow-green-500/10">
               <div className="bg-black p-2 rounded-lg border border-green-500/20">
@@ -164,7 +164,7 @@ export default function ChatAppHomepage() {
               </div>
             </div>
 
-            <div className="flex items-start p-3 bg-zinc-900/70 backdrop-blur-sm rounded-xl border border-zinc-800 hover:border-green-500/30 transition-all duration-300 hover:shadow-md hover:shadow-green-500/10">
+            {/* <div className="flex items-start p-3 bg-zinc-900/70 backdrop-blur-sm rounded-xl border border-zinc-800 hover:border-green-500/30 transition-all duration-300 hover:shadow-md hover:shadow-green-500/10">
               <div className="bg-black p-2 rounded-lg border border-green-500/20">
                 <Bot className="h-4 w-4 text-green-400" />
               </div>
@@ -176,7 +176,7 @@ export default function ChatAppHomepage() {
                   Get instant responses with our assistant
                 </p>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
